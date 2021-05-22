@@ -1,0 +1,21 @@
+.Home {
+  min-height: 100vh;
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+  &__content {
+    margin-left: 2rem;
+    &-title {
+      h1,
+      h2 {
+        font-weight: 600;
+        color: $white;
+      }
+      h1 {
+        font-size: 50px;
+      }
+      h2 {
+        font-size: 20px;
+      }
+    }
+  }
+}

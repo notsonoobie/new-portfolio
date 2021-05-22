@@ -1,58 +1,68 @@
 import '../scss/app.scss';
 
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import * as dat from 'dat.gui'
+
+document.onreadystatechange = () => {
+  if (document.readyState === 'complete') {
+    setTimeout(() => {
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('root').style.display = 'block !important';
+    }, 1000);
+  }
+};
 
 // Debug
-const gui = new dat.GUI()
+// const gui = new dat.GUI()
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
+
+// Root
+const root = document.getElementById('root')
 
 // Scene
 const scene = new THREE.Scene()
 
 // Texture Loader
-const loader = new THREE.TextureLoader()
-const crossLoader = loader.load('./cross.png')
+const moonTexture = new THREE.TextureLoader().load('../images/content/moon.jpg')
+const moonMap = new THREE.TextureLoader().load('../images/content/normal-map.jpeg')
 
 // Objects
-const geometry = new THREE.TorusGeometry(.7, .2, 16, 100);
+const moonGeometry = new THREE.SphereGeometry(1, 10, 10);
 
 const particleGeometry = new THREE.BufferGeometry;
-const particleCount = 8000;
+const particleCount = 2000;
 const particlePositionArray = new Float32Array(particleCount * 3)
-
 for (let i = 0; i < particleCount; i++) {
-  particlePositionArray[i] = (Math.random() - .5) * (Math.random() * 5)
+  particlePositionArray[i] = (Math.random() - .5) * (Math.random() * 7)
 }
-
 particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositionArray, 3))
 
+
 // Materials
-const material = new THREE.PointsMaterial({
-  size: 0.01
+const moonMaterial = new THREE.MeshStandardMaterial({
+  map: moonTexture,
+  normalMap: moonMap,
+  blending: THREE.AdditiveBlending,
+  roughness: 1000
 })
 const particlesMaterial = new THREE.PointsMaterial({
-  size: 0.004,
+  size: 0.009,
   transparent: true,
-  // map: crossLoader,
-  color: 'grey',
+  color: 'white',
   blending: THREE.AdditiveBlending
 })
 
 // Mesh
-const sphere = new THREE.Points(geometry, material)
+const moonMesh = new THREE.Mesh(moonGeometry, moonMaterial)
+
 const particleMesh = new THREE.Points(particleGeometry, particlesMaterial)
-scene.add(sphere, particleMesh)
+scene.add(particleMesh)
+scene.add(moonMesh)
 
 // Lights
-
-const pointLight = new THREE.PointLight(0xffffff, 0.1)
-pointLight.position.x = 2
-pointLight.position.y = 3
-pointLight.position.z = 4
+const pointLight = new THREE.PointLight(0xffffff)
+pointLight.position.set(-2, 2, 1)
 scene.add(pointLight)
 
 /**
@@ -81,15 +91,11 @@ window.addEventListener('resize', () => {
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000)
 camera.position.x = 0
 camera.position.y = 0
-camera.position.z = 2
+camera.position.z = 3
 scene.add(camera)
-
-// Controls
-// const controls = new OrbitControls(camera, canvas)
-// controls.enableDamping = true
 
 /**
  * Renderer
@@ -113,10 +119,23 @@ const handleMouseMove = (e) => {
 
 document.addEventListener('mousemove', handleMouseMove, false)
 
+// Moon Positions
+let moonPostions = {
+  x: 1.3,
+  y: .3,
+  z: .4,
+}
+const handleScroll = (e) => {
+  moonPostions.x = (root.scrollTop / root.scrollHeight) + 1.3
+  moonPostions.y = (root.scrollTop / root.scrollHeight) * -1.1 + .3
+  moonPostions.z = (root.scrollTop / root.scrollHeight) + .4
+}
+
+root.addEventListener('scroll', handleScroll, false)
+
 /**
  * Animate
 */
-
 const clock = new THREE.Clock()
 
 const tick = () => {
@@ -124,13 +143,14 @@ const tick = () => {
   const elapsedTime = clock.getElapsedTime()
 
   // Update objects
-  sphere.rotation.y = .0005 * elapsedTime * (mousexY || 0.2)
-  sphere.rotation.x = .0005 * elapsedTime * (mousexX)
-  particleMesh.rotation.x = -mousexY * elapsedTime * .00005
-  particleMesh.rotation.y = -mousexX * elapsedTime * .00005
+  moonMesh.rotation.y = .0005 * elapsedTime * (mousexY || 0.2)
+  moonMesh.rotation.x = .0005 * elapsedTime * (mousexX)
+  moonMesh.position.x = moonPostions.x
+  moonMesh.position.y = moonPostions.y
+  moonMesh.position.z = moonPostions.z
 
-  // Update Orbital Controls
-  // controls.update()
+  particleMesh.rotation.x = (-mousexY) * elapsedTime * .00005
+  particleMesh.rotation.y = (-mousexX) * elapsedTime * .00005
 
   // Render
   renderer.render(scene, camera)

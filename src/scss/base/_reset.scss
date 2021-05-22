@@ -31,10 +31,18 @@ dd {
 
 /* Set core body defaults */
 body {
-  min-height: 100vh;
+  max-height: 100vh;
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  overflow-x: hidden !important;
+  background-color: $black;
+  ::selection {
+    background-color: rgb(100, 145, 214); /* WebKit/Blink Browsers */
+  }
+  ::-moz-selection {
+    background-color: rgb(100, 145, 214); /* Gecko Browsers */
+  }
 }
 
 /* Remove list styles on ul, ol elements with a class attribute */
@@ -46,6 +54,10 @@ ol[class] {
 /* A elements that don't have a class get default styles */
 a:not([class]) {
   text-decoration-skip-ink: auto;
+}
+
+a {
+  text-decoration: none;
 }
 
 /* Make images easier to work with */
@@ -67,12 +79,23 @@ select {
   font: inherit;
 }
 
-/* Remove all animations and transitions for people that prefer not to see them */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+#root {
+  overflow-y: auto !important;
+  scroll-behavior: smooth;
+}
+
+@media (min-width: 768px) {
+  #root {
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 25px;
+      background: linear-gradient(
+        0deg,
+        rgb(100, 145, 214) 0%,
+        rgb(67, 240, 199) 100%
+      );
+    }
   }
 }

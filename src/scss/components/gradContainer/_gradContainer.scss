@@ -1,0 +1,28 @@
+.GradContainer {
+  & span {
+    display: inline-block;
+    height: 10px;
+    margin-right: 10px;
+  }
+  &__box {
+    &-xs {
+      width: 10px;
+    }
+    &-sm {
+      width: 40px;
+    }
+    &-md {
+      width: 100px;
+    }
+    &-lg {
+      width: 160px;
+    }
+    &-xl {
+      width: 190px;
+    }
+  }
+  &__circle {
+    width: 10px;
+    border-radius: 50%;
+  }
+}

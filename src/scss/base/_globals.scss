@@ -1,0 +1,61 @@
+.big-dot {
+  margin-left: 0;
+  display: inline-block;
+  position: relative;
+  top: 1px;
+  background: $white;
+  border-radius: 14px;
+  height: 10.5px;
+  width: 10.5px;
+}
+
+.big-dot-red {
+  background: $red;
+  border-radius: 14px;
+  height: 10.5px;
+  width: 10.5px;
+}
+
+.grad-1 {
+  background: $grad1;
+}
+.grad-2 {
+  background: $grad2;
+}
+.grad-3 {
+  background: $grad3;
+}
+.solid-1 {
+  background: $solid1;
+}
+.custom__arrow {
+  position: absolute;
+  left: 10px;
+  width: 1px;
+  background: $slim-grey;
+  top: auto;
+  height: 50%;
+  transform-origin: 0 0;
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 9px solid $slim-grey;
+    bottom: -9px;
+    left: -8px;
+  }
+}
+
+.custom__arrow-nodir {
+  position: absolute;
+  left: 10px;
+  width: 1px;
+  background: $slim-grey;
+  top: auto;
+  height: 50%;
+  transform-origin: 0 0;
+}

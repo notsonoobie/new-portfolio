@@ -1,0 +1,50 @@
+.Work {
+  min-height: 100vh;
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+  &__content {
+    margin-left: 2rem;
+    &-container {
+      margin: 1rem 0;
+      &-head {
+        h1 {
+          color: $white;
+          font-size: 30px;
+          font-weight: 600;
+          letter-spacing: 5px;
+          text-transform: uppercase;
+        }
+      }
+      &-body {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        & .title {
+          transition: all 0.3s ease-in-out;
+          color: $white;
+          font-size: 18px;
+          font-weight: 600;
+        }
+        & .time {
+          color: $light-grey;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 21px;
+        }
+        & > div {
+          &:hover {
+            .title::before {
+              content: '';
+              display: inline-block;
+              width: 5rem;
+              height: 10px;
+              background: $grad3;
+              border-radius: 5px;
+              margin-right: 1.6rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
