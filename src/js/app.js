@@ -4,10 +4,8 @@ import * as THREE from 'three'
 
 document.onreadystatechange = () => {
   if (document.readyState === 'complete') {
-    setTimeout(() => {
       document.getElementById('loader').style.display = 'none';
       document.getElementById('root').style.display = 'block !important';
-    }, 1000);
   }
 };
 
